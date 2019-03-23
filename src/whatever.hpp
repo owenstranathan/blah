@@ -6,7 +6,7 @@
 
 extern int SCREEN_HEIGHT;
 extern int SCREEN_WIDTH;
-extern std::chrono::duration<double> deltaTime;
+extern std::chrono::duration<float> deltaTime;
 
 namespace blah
 {

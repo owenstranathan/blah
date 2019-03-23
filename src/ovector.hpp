@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <SFML/System.hpp>
 
 #include "whatever.hpp"
@@ -8,43 +9,40 @@ namespace blah
 {
 
 template <typename T>
-T squareMagnitude(const sf::Vector3<T> &v)
+T squareMagnitude(const sf::Vector2<T> &v)
 {
-    return (
-        pow<T>(v.x, 2) +
-        pow<T>(v.y, 2) +
-        pow<T>(v.z, 2));
+	return (
+		pow<T>(v.x, 2) +
+		pow<T>(v.y, 2));
 }
 
 template <typename T>
-T magnitude(const sf::Vector3<T> &v)
+T magnitude(const sf::Vector2<T> &v)
 {
     return sqrt(squareMagnitude(v));
 }
 
 template <typename T>
-sf::Vector3<T> normalized(sf::Vector3<T> v)
+sf::Vector2<T> normalized(sf::Vector2<T> v)
 {
     T mag = magnitude<T>(v);
-    return sf::Vector3<T>(
+    return sf::Vector2<T>(
         static_cast<T>(v.x / mag),
-        static_cast<T>(v.y / mag),
-        static_cast<T>(v.z / mag));
+        static_cast<T>(v.y / mag));
 }
 
 template <typename T>
-sf::Vector3<T> randomVector3()
+sf::Vector2<T> randomVector2()
 {
-    return sf::Vector3<T>(randomNumber<T>(static_cast<T>(0), static_cast<T>(SCREEN_WIDTH)),
-                          randomNumber<T>(static_cast<T>(0), static_cast<T>(SCREEN_HEIGHT)),
-                          0);
+	return sf::Vector2<T>(randomNumber<T>(static_cast<T>(0), static_cast<T>(SCREEN_WIDTH)),
+		randomNumber<T>(static_cast<T>(0), static_cast<T>(SCREEN_HEIGHT)));
 }
 
 template <typename T>
-sf::Vector3<T> randomVector3(T start, T end)
+sf::Vector2<T> randomVector2(T start, T end)
 {
     auto blah{std::bind(randomNumber<T>, start, end)};
-    return sf::Vector3<T>(blah(), blah(), blah());
+    return sf::Vector2<T>(blah(), blah());
 }
 
 } // namespace blah
