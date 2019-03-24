@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OVECTOR_HPP
+#define OVECTOR_HPP
 
 #include <functional>
 #include <SFML/System.hpp>
@@ -60,3 +61,5 @@ std::ostream &operator<<(std::ostream &os, const sf::Vector2<T> &v)
     os << "(" << v.x << ", " << v.y << ")";
     return os;
 }
+
+#endif // !OVECTOR_HPP
