@@ -3,21 +3,28 @@
 #include "ovector.hpp"
 #include "aabb.hpp"
 
-
 namespace blah {
-	Particle::Particle() : position(sf::Vector2<float>()),
-		velocity(sf::Vector2<float>()),
-		acceleration(sf::Vector2<float>()),
-		radius(0),
+	Particle::Particle() : position(sf::Vector2f()),
+		velocity(sf::Vector2f()),
+		acceleration(sf::Vector2f()),
+		origin(sf::Vector2f()),
 		primaryColor(sf::Color::White),
 		secondaryColor(sf::Color::Black)
 	{
-		aabb = new AxisAlignedBoundingBox(this);
+		aabb = new AABB(this);
 		shape = sf::CircleShape(radius, vertices);
-		shape.setFillColor(primaryColor);
-		shape.setOutlineThickness(outlineThickness);
-		shape.setOutlineColor(secondaryColor);
-		shape.setOrigin(radius, radius);
+		origin = sf::Vector2f(radius, radius);
+		updateShape();
+	}
+		
+	Particle::Particle(sf::Vector2f & p, float r) : position(p),
+		radius(r),
+		primaryColor(sf::Color::White),
+		secondaryColor(sf::Color::Black) {
+		aabb = new AABB(this);
+		shape = sf::CircleShape(radius, vertices);
+		origin = sf::Vector2f(radius, radius);
+		updateShape();
 	}
 
 	Particle::~Particle()
@@ -25,11 +32,17 @@ namespace blah {
 		delete aabb;
 	}
 
-	void Particle::draw(sf::RenderTarget &rt)
-	{
-		shape.setPosition(position.x, position.y);
+	void Particle::updateShape() {
+		shape.setFillColor(primaryColor);
+		shape.setOutlineThickness(outlineThickness);
+		shape.setOutlineColor(secondaryColor);
 		shape.setRadius(radius);
 		shape.setOrigin(radius, radius);
+		shape.setPosition(position);
+	}
+	void Particle::draw(sf::RenderTarget &rt)
+	{
+		updateShape();
 		shape.rotate(-90 * deltaTime.count());
 		rt.draw(shape);
 	}
@@ -37,7 +50,7 @@ namespace blah {
 
 	bool Particle::collision(const Particle &p)
 	{
-		sf::Vector2<float> relativePosition = position - p.position;
+		sf::Vector2f relativePosition = position - p.position;
 		double distanceSquared = squareMagnitude(relativePosition);
 		double squareCollisionRadius = std::pow((radius + p.radius), 2);
 		return distanceSquared < squareCollisionRadius;
@@ -45,18 +58,23 @@ namespace blah {
 
 	void Particle::collide(const Particle &p)
 	{
-		sf::Vector2<float> relativePosition = position - p.position;
-		sf::Vector2<float> relativeCollisionPoint = normalized(relativePosition) * radius;
-		sf::Vector2<float> collisionPoint = position + relativeCollisionPoint;
-		sf::Vector2<float> correctiveForce = normalized(collisionPoint - p.position) * p.radius;
+		sf::Vector2f relativePosition = position - p.position;
+		sf::Vector2f relativeCollisionPoint = normalized(relativePosition) * radius;
+		sf::Vector2f collisionPoint = position + relativeCollisionPoint;
+		sf::Vector2f correctiveForce = normalized(collisionPoint - p.position) * p.radius;
 		velocity += correctiveForce;
 	}
 
 	void Particle::kinematics()
 	{
+		if (velocity.x > 3.0f)
+			velocity.x = 3.0f;
+		if (velocity.y > 3.0f)
+			velocity.y = 3.0f;
+		
 		position += velocity;
 		velocity += acceleration;
-		acceleration = sf::Vector2<float>();
+		acceleration = sf::Vector2f();
  
 		if (aabb->min().x < 0)
 		{
@@ -92,13 +110,21 @@ namespace blah {
 		}
 	}
 
+	void Particle::resolveCollision(Particle& a, Particle& b) {
+		if (a.collision(b)) {
+			a.collide(b);
+			b.collide(a);
+		}
+	}
+
 
 	Particle * randomParticle()
 	{
 		Particle* p = new Particle();
 		p->radius = randomNumber<float>(1, 30);
 		p->position = randomVector2<float>();
-		p->velocity = randomVector2<float>(0, 5);
+		p->velocity = randomVector2<float>(0.0f, 5.0f);
 		return p;
 	}
-}
+
+	}

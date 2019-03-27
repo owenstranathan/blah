@@ -16,22 +16,25 @@ namespace blah
 	{
 	public:
 		Particle();
-		// Particle(const sf::Vector2<double> &);
+		Particle(sf::Vector2f &, float);
 		~Particle();
 
 		void draw(sf::RenderTarget &);
 		void kinematics();
 		bool collision(const Particle &);
 		void collide(const Particle &);
+		void updateShape();
+		static void resolveCollision(Particle&, Particle&);
 
 
-		sf::Vector2<float> position;
-		sf::Vector2<float> velocity;
-		sf::Vector2<float> acceleration;
+		sf::Vector2f position;
+		sf::Vector2f velocity;
+		sf::Vector2f acceleration;
+		sf::Vector2f origin;
 		sf::Color primaryColor;
 		sf::Color secondaryColor;
 		sf::CircleShape shape;
-		AxisAlignedBoundingBox* aabb;
+		AABB * aabb;
 		float radius;
 		float rotation;
 		float outlineThickness = 1;

@@ -1,11 +1,13 @@
 #ifndef AABB_HPP
 #define AABB_HPP
 
-
+#include <iostream>
 #include <SFML/System.hpp>
+
 #include "whatever.hpp"
 
 namespace blah {
+
 
 	class AxisAlignedBoundingBox {
 	public:
@@ -13,12 +15,17 @@ namespace blah {
 		AxisAlignedBoundingBox(Particle* p);
 	    ~AxisAlignedBoundingBox(){ }
 
-		sf::Vector2<float> min();
-		sf::Vector2<float> max();
+		sf::Vector2f min();
+		sf::Vector2f max();
 
 		const Particle* particle;
 	};
 	
+	
+	typedef AxisAlignedBoundingBox AABB;
+
 }
+
+std::ostream &operator<<(std::ostream&, blah::AABB&);
 
 #endif // !AABB_HPP

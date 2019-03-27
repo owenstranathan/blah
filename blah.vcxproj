@@ -139,11 +139,13 @@
     <ClCompile Include="src\aabb.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\particle.cpp" />
+    <ClCompile Include="src\sap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aabb.hpp" />
     <ClInclude Include="src\ovector.hpp" />
     <ClInclude Include="src\particle.hpp" />
+    <ClInclude Include="src\sap.hpp" />
     <ClInclude Include="src\whatever.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
