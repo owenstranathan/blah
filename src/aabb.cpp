@@ -17,7 +17,6 @@ namespace blah {
 	sf::Vector2f AxisAlignedBoundingBox::max() {
 		return sf::Vector2f(particle->position.x + particle->radius, particle->position.y + particle->radius);
 	}
-	
 }
 
 std::ostream & operator<<(std::ostream& os, blah::AABB& aabb) {

@@ -25,8 +25,13 @@ namespace blah
 		void collide(const Particle &);
 		void updateShape();
 		static void resolveCollision(Particle&, Particle&);
+		static void loadStatic();
 
 
+		static int particle_ids;
+		static sf::Font font;
+
+		int id;
 		sf::Vector2f position;
 		sf::Vector2f velocity;
 		sf::Vector2f acceleration;
@@ -34,7 +39,8 @@ namespace blah
 		sf::Color primaryColor;
 		sf::Color secondaryColor;
 		sf::CircleShape shape;
-		AABB * aabb;
+		sf::Text text;
+		AABB aabb;
 		float radius;
 		float rotation;
 		float outlineThickness = 1;
