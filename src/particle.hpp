@@ -25,11 +25,10 @@ namespace blah
 		void collide(const Particle &);
 		void updateShape();
 		static void resolveCollision(Particle&, Particle&);
-		static void loadStatic();
+		// static void loadStatic();
 
 
 		static int particle_ids;
-		static sf::Font font;
 
 		int id;
 		sf::Vector2f position;
@@ -40,16 +39,16 @@ namespace blah
 		sf::Color secondaryColor;
 		sf::CircleShape shape;
 		sf::Text text;
+		sf::Font font;
 		AABB aabb;
 		float radius;
 		float rotation;
 		float outlineThickness = 1;
 		float drawDistance = 200;
-		int vertices = 7;
 	};
 
 
-	Particle * randomParticle();
+	Particle * randomParticle(float, float);
 
 } // namespace blah
 

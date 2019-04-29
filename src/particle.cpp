@@ -14,16 +14,17 @@ namespace blah {
 		secondaryColor(sf::Color::Black),
 		id(++particle_ids)
 	{
-		sf::Text text(std::to_string(id), font, 10); // TODO: make font size a member
 		aabb.particle = this;
-		shape = sf::CircleShape(radius, vertices);
+		shape = sf::CircleShape(radius);
 		origin = sf::Vector2f(radius, radius);
 		shape.setFillColor(primaryColor);
 		shape.setOutlineThickness(outlineThickness);
 		shape.setOutlineColor(secondaryColor);
 		shape.setRadius(radius);
-		shape.setOrigin(radius, radius);
+		//shape.setOrigin(radius, radius);
+		//font.loadFromFile("IBMPlexMono-Regular.ttf");
 		text.setFont(font);
+		text.setString(std::to_string(id));
 		text.setCharacterSize(10);
 		text.setStyle(sf::Text::Regular);
 		text.setFillColor(secondaryColor);
@@ -35,23 +36,23 @@ namespace blah {
 		secondaryColor(sf::Color::Black),
 		id(++particle_ids)
 	{
-		sf::Text text(std::to_string(id), font, 10); // TODO: make font size a member
 		aabb.particle = this;
-		shape = sf::CircleShape(radius, vertices);
+		shape = sf::CircleShape(radius);
 		origin = sf::Vector2f(radius, radius);
 		shape.setFillColor(primaryColor);
 		shape.setOutlineThickness(outlineThickness);
 		shape.setOutlineColor(secondaryColor);
 		shape.setRadius(radius);
-		shape.setOrigin(radius, radius);
+		//shape.setOrigin(radius, radius);
+		// font.loadFromFile("IBMPlexMono-Regular.ttf");
 		text.setFont(font);
+		text.setString(std::to_string(id));
 		text.setCharacterSize(10);
 		text.setStyle(sf::Text::Regular);
 		text.setFillColor(secondaryColor);
 	}
 
 	int Particle::particle_ids = 0;
-	sf::Font Particle::font = sf::Font();
 
 	Particle::~Particle()
 	{
@@ -65,10 +66,34 @@ namespace blah {
 		text.setPosition(position);
 		text.setFillColor(secondaryColor);
 		text.setCharacterSize(10);	
-		text.setFont(font);
+		//text.setFont(font);
+		// sf::CircleShape min = sf::CircleShape(1);
+		// min.setPosition(aabb.min());
+		// min.setFillColor(sf::Color::Red);
+		// min.setOutlineColor(sf::Color::Red);
+		// sf::CircleShape max = sf::CircleShape(1);
+		// max.setPosition(aabb.max());
+		// max.setFillColor(sf::Color::Red);
+		// max.setOutlineColor(sf::Color::Red);
+		// sf::Vector2f rectPos(position.x - radius, position.y - radius);
+		// sf::Vector2f rectSize(2 * radius, 2 * radius);
+		// sf::Rect<float> rect(rectPos, rectSize);
+		// sf::RectangleShape rectShape(rectSize);
+		// rectShape.setPosition(rectPos);
+		// rectShape.setFillColor(sf::Color::Red);
+		// rectShape.setOutlineColor(sf::Color::Red);
 		shape.setPosition(position);
-		shape.rotate(-90 * deltaTime.count());
+		shape.setOrigin(radius, radius);
+		//shape.rotate(-90 * deltaTime.count());
+		sf::CircleShape pos= sf::CircleShape(1);
+		pos.setPosition(position);
+		pos.setFillColor(sf::Color::Magenta);
+		pos.setOutlineColor(sf::Color::Magenta);
+		// rt.draw(rectShape);
 		rt.draw(shape);
+		// rt.draw(min);
+		// rt.draw(max);
+		rt.draw(pos);
 		rt.draw(text);
 	}
 
@@ -143,14 +168,16 @@ namespace blah {
 		}
 	}
 
-	void Particle::loadStatic() {
-		font.loadFromFile("IBMPlexMono-Regular.ttf");
-	}
+	// void Particle::loadStatic() {
+	// 	font.loadFromFile("IBMPlexMono-Regular.ttf");
+	// }
 
-	Particle * randomParticle()
+	Particle * randomParticle(float minRadius, float maxRadius)
 	{
-		Particle* p = new Particle(randomVector2<float>(), randomNumber<float>(1, 30));
-		p->velocity = randomVector2<float>(0.0f, 5.0f);
+		Particle* p = new Particle(randomVector2<float>(), (int)randomNumber<float>(minRadius, maxRadius));
+		((int)p->radius % 2) == 1 ? p->radius++ : p->radius;
+		p->velocity = sf::Vector2f(0, 0);
+		// p->velocity = randomVector2<float>(0.0f, 5.0f);
 		return p;
 	}
 

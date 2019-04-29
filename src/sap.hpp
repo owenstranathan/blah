@@ -17,7 +17,7 @@ namespace blah {
 
 	private:
 		std::vector<Particle *>   xAxis;
-		std::vector<Particle *>   yAxis;
+		std::vector<std::pair<Particle*, Particle*>> pairs;
 	};
 
 	typedef SweepAndPrune SAP;

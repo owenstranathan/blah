@@ -3,3 +3,4 @@ log/
 .vs/
 *.tlog
 *.user
+x64/

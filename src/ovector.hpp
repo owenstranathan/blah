@@ -10,6 +10,16 @@ namespace blah
 {
 
 template <typename T>
+T dot2(const sf::Vector2<T> u, const sf::Vector2<T> v) {
+	return u.x* v.x + u.y * v.y;
+}
+
+template <typename T>
+T dot3(const sf::Vector3<T> u, const sf::Vector3<T> v) {
+	return u.x * v.x + u.y * v.y + u.z * v.z;
+}
+
+template <typename T>
 T squareMagnitude(const sf::Vector2<T> &v)
 {
 	return (
