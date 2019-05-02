@@ -4,3 +4,6 @@ log/
 *.tlog
 *.user
 x64/
+
+.vscode/
+*.vsp
